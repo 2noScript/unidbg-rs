@@ -6,3 +6,6 @@ license.workspace = true
 
 [dependencies]
 unidbg-api = { path = "../../crates/unidbg-api" }
+
+[target.'cfg(all(target_os = "linux", target_arch = "aarch64"))'.dependencies]
+libc = "0.2"

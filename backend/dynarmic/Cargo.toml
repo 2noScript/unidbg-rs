@@ -3,7 +3,11 @@ name = "unidbg-dynarmic"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+build = "build.rs"
 
 [dependencies]
 unidbg-api = { path = "../../crates/unidbg-api" }
 tracing.workspace = true
+
+[build-dependencies]
+cc = "1.1"
