@@ -21,3 +21,4 @@ Thumbs.db
 
 # Internal / local experiments
 /local/
+/.cargo/config.toml

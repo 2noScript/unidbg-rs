@@ -1,6 +1,0 @@
-[env]
-CMAKE_POLICY_VERSION_MINIMUM = "3.5"
-CC = "/usr/bin/clang"
-CXX = "/usr/bin/clang++"
-SDKROOT = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-BINDGEN_EXTRA_CLANG_ARGS = "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
