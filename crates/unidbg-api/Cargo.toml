@@ -1,0 +1,13 @@
+[package]
+name = "unidbg-api"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+bitflags.workspace = true
+bytes.workspace = true
+tracing.workspace = true
+rangemap.workspace = true
+capstone.workspace = true

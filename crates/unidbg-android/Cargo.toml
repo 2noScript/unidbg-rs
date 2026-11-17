@@ -1,0 +1,18 @@
+[package]
+name = "unidbg-android"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+unidbg-api = { path = "../unidbg-api" }
+thiserror.workspace = true
+bitflags.workspace = true
+bytes.workspace = true
+tracing.workspace = true
+goblin.workspace = true
+zip.workspace = true
+cpp_demangle.workspace = true
+
+[dev-dependencies]
+unidbg-unicorn2 = { path = "../../backend/unicorn2" }
