@@ -877,6 +877,7 @@ dependencies = [
 name = "unidbg-dynarmic"
 version = "0.1.0"
 dependencies = [
+ "cc",
  "tracing",
  "unidbg-api",
 ]
@@ -908,6 +909,7 @@ dependencies = [
 name = "unidbg-kvm"
 version = "0.1.0"
 dependencies = [
+ "libc",
  "unidbg-api",
 ]
 
