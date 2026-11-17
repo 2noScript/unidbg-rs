@@ -14,7 +14,7 @@ Uses **`unidbg` (Java)** as the architectural and functional reference, while or
 | [x] | `arm/ARM`, `AbstractARMEmulator`, `AbstractARM64Emulator`, `Cpsr` | `arm/mod.rs` | `Arch`, `ArmMode`, `Cpsr`, `show_regs`, `is_thumb` |
 | [x] | `arm/ARMSvcMemory`, `ArmSvc`, `ThumbSvc`, `Arm64Svc`, `ArmHook`, `Arm64Hook` | `arm/svc.rs`, `hook/mod.rs` | `ArmSvcMemory` (`register_svc`, `allocate`), `SvcStub`, `InlineHook` |
 | [x] | `arm/backend/*` (`Backend`, `BackendFactory`) | `arm/backend.rs` | `pub trait Backend` (`reg_read`, `reg_write`, `mem_read`, `mem_write`, `mem_map`, `mem_unmap`, `mem_protect`, `emu_start`, `emu_stop`, `context_alloc/save/restore`, `hook_add_code`, `hook_add_mem`, `hook_del`) |
-| [ ] | `arm/context/*` | `arm/context.rs` | `pub trait RegisterContext`, `Arm32Context`, `Arm64Context` |
+| [x] | `arm/context/*` | `arm/context.rs` | `pub trait RegisterContext`, `Arm32Context`, `Arm64Context` |
 | [x] | `memory/*` (`Memory`, `MemoryMap`, `MemoryBlock`, `SvcMemory`) | `memory/mod.rs` | `pub trait Memory` (`malloc`, `mmap`, `munmap`, `mprotect`, `allocate_stack`, `pointer`), `MemoryManager`, `MemoryMap`, `MemoryBlock` |
 | [x] | `pointer/*` (`UnidbgPointer`, `UnidbgStructure`) | `pointer.rs` | `UnidbgPointer`, `pub trait UnidbgStruct` |
 | [x] | `file/*` (`FileSystem`, `FileIO`, `IOResolver`) | `file/mod.rs` | `pub trait FileSystem`, `pub trait FileIO`, `pub trait IOResolver` |
