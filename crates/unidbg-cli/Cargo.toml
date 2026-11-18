@@ -3,11 +3,16 @@ name = "unidbg-cli"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "CLI runner (exec, jni, gdb) for the unidbg-rs ARM32/ARM64 emulator"
 
 [dependencies]
-unidbg-api = { path = "../unidbg-api" }
-unidbg-android = { path = "../unidbg-android" }
-unidbg-unicorn2 = { path = "../../backend/unicorn2" }
+unidbg-api = { version = "0.1.0", path = "../unidbg-api" }
+unidbg-android = { version = "0.1.0", path = "../unidbg-android" }
+unidbg-unicorn2 = { version = "0.1.0", path = "../../backend/unicorn2" }
 anyhow.workspace = true
 clap.workspace = true
 tracing.workspace = true

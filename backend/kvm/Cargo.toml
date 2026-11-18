@@ -3,6 +3,7 @@ name = "unidbg-kvm"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+publish = false
 
 [dependencies]
 unidbg-api = { path = "../../crates/unidbg-api" }

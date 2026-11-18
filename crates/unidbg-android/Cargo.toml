@@ -3,9 +3,14 @@ name = "unidbg-android"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Android ELF loader, Linux ARM32/ARM64 syscalls, VFS, DalvikVM/JNI bridge, and XHook (unidbg-rs)"
 
 [dependencies]
-unidbg-api = { path = "../unidbg-api" }
+unidbg-api = { version = "0.1.0", path = "../unidbg-api" }
 thiserror.workspace = true
 bitflags.workspace = true
 bytes.workspace = true
@@ -15,4 +20,4 @@ zip.workspace = true
 cpp_demangle.workspace = true
 
 [dev-dependencies]
-unidbg-unicorn2 = { path = "../../backend/unicorn2" }
+unidbg-unicorn2 = { version = "0.1.0", path = "../../backend/unicorn2" }

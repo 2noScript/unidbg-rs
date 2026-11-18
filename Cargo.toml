@@ -15,6 +15,10 @@ members = [
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
+repository = "https://github.com/2noScript/unidbg-rs"
+homepage = "https://github.com/2noScript/unidbg-rs"
+keywords = ["unidbg", "arm64", "android", "ios", "emulator"]
+categories = ["emulators", "development-tools::debugging"]
 
 [workspace.dependencies]
 thiserror = "2.0"

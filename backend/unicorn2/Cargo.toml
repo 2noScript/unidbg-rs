@@ -3,8 +3,13 @@ name = "unidbg-unicorn2"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Unicorn Engine 2 CPU backend for unidbg-rs (ARM32, Thumb, ARM64)"
 
 [dependencies]
-unidbg-api = { path = "../..//crates/unidbg-api" }
+unidbg-api = { version = "0.1.0", path = "../../crates/unidbg-api" }
 unicorn-engine.workspace = true
 tracing.workspace = true
