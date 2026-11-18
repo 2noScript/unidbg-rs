@@ -5,6 +5,15 @@ All notable changes to `unidbg-rs` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-11-18
+
+### Added
+- **VFS Security & LogCat Containment (`unidbg-android`)**:
+  - Synced with upstream `unidbg` `#795` (`d94dba1`): `LinuxFileSystem::resolve_contained_path` now enforces `rootDir` containment (blocking `..` traversal and symlink escapes with `-EACCES`) and supports `/dev/log/*` LogCat files under `rootDir`.
+- **CI/CD & Crates.io Packaging**:
+  - Added `.github/workflows/ci.yml` (Linux + macOS workspace tests) and `.github/workflows/publish.yml` (automated `crates.io` release on `v*` tags).
+  - Updated `Cargo.toml` package metadata and internal crate versions to `0.1.1`.
+
 ## [0.1.0] - 2026-11-17
 
 ### Added

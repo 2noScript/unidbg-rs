@@ -1,0 +1,75 @@
+name: Publish to crates.io
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install system build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake pkg-config clang libclang-dev
+
+      - name: Run workspace tests
+        run: cargo test --workspace
+
+      - name: Publish crates in dependency order
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          publish_if_needed() {
+            local pkg="$1"
+            local ver
+            ver="$(cargo metadata --no-deps --format-version 1 | python3 -c "import json,sys; d=json.load(sys.stdin); print(next(p['version'] for p in d['packages'] if p['name']=='$pkg'))")"
+            if curl -sf "https://crates.io/api/v1/crates/${pkg}/${ver}" >/dev/null; then
+              echo "Skipping ${pkg} v${ver} (already published)"
+            else
+              cargo publish -p "${pkg}"
+            fi
+          }
+
+          publish_if_needed unidbg-api
+          sleep 20
+
+          publish_if_needed unidbg-unicorn2
+          publish_if_needed unidbg-android
+          publish_if_needed unidbg-ios
+          sleep 20
+
+          publish_if_needed unidbg-cli
+
+  publish-hypervisor:
+    needs: publish
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Publish unidbg-hypervisor
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          ver="$(cargo metadata --no-deps --format-version 1 | python3 -c "import json,sys; d=json.load(sys.stdin); print(next(p['version'] for p in d['packages'] if p['name']=='unidbg-hypervisor'))")"
+          if curl -sf "https://crates.io/api/v1/crates/unidbg-hypervisor/${ver}" >/dev/null; then
+            echo "Skipping unidbg-hypervisor v${ver} (already published)"
+          else
+            cargo publish -p unidbg-hypervisor
+          fi

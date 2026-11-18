@@ -10,5 +10,5 @@ categories.workspace = true
 description = "macOS Apple Silicon Hypervisor.framework ARM64 backend for unidbg-rs"
 
 [dependencies]
-unidbg-api = { version = "0.1.0", path = "../../crates/unidbg-api" }
+unidbg-api = { version = "0.1.1", path = "../../crates/unidbg-api" }
 tracing.workspace = true

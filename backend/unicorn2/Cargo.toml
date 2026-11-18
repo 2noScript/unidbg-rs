@@ -10,6 +10,6 @@ categories.workspace = true
 description = "Unicorn Engine 2 CPU backend for unidbg-rs (ARM32, Thumb, ARM64)"
 
 [dependencies]
-unidbg-api = { version = "0.1.0", path = "../../crates/unidbg-api" }
+unidbg-api = { version = "0.1.1", path = "../../crates/unidbg-api" }
 unicorn-engine.workspace = true
 tracing.workspace = true

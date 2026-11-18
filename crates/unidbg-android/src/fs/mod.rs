@@ -302,6 +302,39 @@ impl LinuxFileSystem {
         }
         out.into_bytes()
     }
+
+    /// Resolve a guest path strictly inside `root`, rejecting `..` traversal
+    /// or symlink escapes outside `root` (mirrors upstream unidbg #795).
+    fn resolve_contained_path(root: &Path, guest_path: &str) -> Option<PathBuf> {
+        use std::path::Component;
+        let mut normalized = PathBuf::new();
+        for comp in Path::new(guest_path).components() {
+            match comp {
+                Component::Normal(s) => normalized.push(s),
+                Component::CurDir | Component::RootDir | Component::Prefix(_) => {}
+                Component::ParentDir => {
+                    if !normalized.pop() {
+                        return None;
+                    }
+                }
+            }
+        }
+        let host_path = root.join(&normalized);
+        if let Ok(canon_root) = root.canonicalize() {
+            if let Ok(canon_target) = host_path.canonicalize() {
+                if !canon_target.starts_with(&canon_root) {
+                    return None;
+                }
+            } else if let Some(parent) = host_path.parent() {
+                if let Ok(canon_parent) = parent.canonicalize() {
+                    if !canon_parent.starts_with(&canon_root) {
+                        return None;
+                    }
+                }
+            }
+        }
+        Some(host_path)
+    }
 }
 
 impl FileSystem for LinuxFileSystem {
@@ -331,9 +364,15 @@ impl FileSystem for LinuxFileSystem {
             )),
             _ => {
                 if let Some(root) = &self.root_dir {
-                    let rel = path.trim_start_matches('/');
-                    let host_path = root.join(rel);
-                    if host_path.is_file() || (oflags & 0o100) != 0 {
+                    let Some(host_path) = Self::resolve_contained_path(root, path) else {
+                        return Ok(-13); // -EACCES
+                    };
+                    if path.starts_with("/dev/log/") {
+                        if let Some(parent) = host_path.parent() {
+                            std::fs::create_dir_all(parent)?;
+                        }
+                        Box::new(SimpleFileIO::open(host_path, oflags | 0o100)?)
+                    } else if host_path.is_file() || (oflags & 0o100) != 0 {
                         Box::new(SimpleFileIO::open(host_path, oflags)?)
                     } else {
                         return Ok(-2); // -ENOENT
@@ -393,5 +432,24 @@ mod tests {
         let mut pbuf = [0u8; 8];
         assert_eq!(fs.get(rfd).unwrap().read(&mut pbuf).unwrap(), 4);
         assert_eq!(&pbuf[..4], b"ping");
+    }
+
+    #[test]
+    fn root_dir_containment_blocks_traversal_and_allows_logcat() {
+        let root = std::env::temp_dir().join(format!("unidbg_rs_fs_contain_{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&root);
+        std::fs::create_dir_all(&root).unwrap();
+
+        let mut fs = LinuxFileSystem::new(Some(root.clone()), "com.example.app");
+        // Traversal outside root_dir must fail with -EACCES (-13)
+        assert_eq!(fs.open("/dev/log/../../../etc/passwd", 0).unwrap(), -13);
+        assert_eq!(fs.open("/../../../tmp/escape", 0o100 | 0o2).unwrap(), -13);
+
+        // Normal LogCat path under root_dir succeeds
+        let log_fd = fs.open("/dev/log/main", 0o2).unwrap();
+        assert!(log_fd >= 3);
+        assert!(root.join("dev/log/main").is_file());
+
+        let _ = std::fs::remove_dir_all(&root);
     }
 }
