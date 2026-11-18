@@ -106,7 +106,7 @@ Or install the CLI directly:
 cargo install unidbg-cli
 ```
 
-*(Alternatively, pin directly to GitHub: `unidbg-android = { git = "https://github.com/2noScript/unidbg-rs", tag = "v0.1.1" }`.)*
+*(Alternatively, to track the latest development commits on GitHub, use `{ git = "https://github.com/2noScript/unidbg-rs", branch = "main" }` consistently across all `unidbg-*` crates rather than mixing `crates.io` and `git` sources.)*
 
 ### Quick Example (Rust)
 
