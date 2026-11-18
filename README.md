@@ -1,5 +1,9 @@
 # unidbg-rs
 
+[![CI](https://github.com/2noScript/unidbg-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/2noScript/unidbg-rs/actions/workflows/ci.yml)
+[![Crates.io](https://img.shields.io/crates/v/unidbg-android.svg)](https://crates.io/crates/unidbg-android)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
 An **idiomatic Rust** port of [**unidbg**](https://github.com/zhkl0228/unidbg) — an ARM32 / Thumb / ARM64 emulator for Android ELF binaries/libraries and iOS Mach-O binaries/frameworks, without requiring a JVM.
 
 ---
@@ -85,16 +89,24 @@ cargo test --workspace
 
 ### Use as a Cargo Dependency
 
-Add the crates you need directly from GitHub in your `Cargo.toml`:
+Add the crates you need from [crates.io](https://crates.io/crates/unidbg-android) in your `Cargo.toml`:
 
 ```toml
 [dependencies]
-unidbg-api = { git = "https://github.com/2noScript/unidbg-rs", tag = "v0.1.0" }
-unidbg-android = { git = "https://github.com/2noScript/unidbg-rs", tag = "v0.1.0" }
-unidbg-unicorn2 = { git = "https://github.com/2noScript/unidbg-rs", tag = "v0.1.0" }
+unidbg-api = "0.1"
+unidbg-android = "0.1"
+unidbg-unicorn2 = "0.1"
 # For iOS emulation:
-# unidbg-ios = { git = "https://github.com/2noScript/unidbg-rs", tag = "v0.1.0" }
+# unidbg-ios = "0.1"
 ```
+
+Or install the CLI directly:
+
+```bash
+cargo install unidbg-cli
+```
+
+*(Alternatively, pin directly to GitHub: `unidbg-android = { git = "https://github.com/2noScript/unidbg-rs", tag = "v0.1.1" }`.)*
 
 ### Quick Example (Rust)
 
